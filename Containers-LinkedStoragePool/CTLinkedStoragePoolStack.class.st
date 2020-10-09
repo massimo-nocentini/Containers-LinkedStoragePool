@@ -7,20 +7,13 @@ Class {
 	#category : #'Containers-LinkedStoragePool'
 }
 
-{ #category : #initialization }
-CTLinkedStoragePoolStack >> newLink [
-	^ ValueLink new
-]
-
 { #category : #adding }
 CTLinkedStoragePoolStack >> pop [
 	^ top ifNil: [ CollectionIsEmpty signal ] ifNotNil: [ 
-		  | p y |
+		  | p |
 		  p := top.
-		  top := p nextLink.
-		  y := p value.
-		  self releaseLink: p.
-		  y ]
+		  top := top nextLink.
+		  p value ignoreBlock: [ self releaseLink: p ] ]
 ]
 
 { #category : #adding }

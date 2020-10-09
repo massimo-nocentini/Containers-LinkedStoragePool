@@ -7,6 +7,11 @@ Class {
 	#category : #'Containers-LinkedStoragePool'
 }
 
+{ #category : #utilities }
+CTLinkedStoragePool class >> queue [
+	^ CTLinkedStoragePoolQueue
+]
+
 { #category : #accessing }
 CTLinkedStoragePool class >> stack [
 	^ CTLinkedStoragePoolStack
@@ -22,8 +27,14 @@ CTLinkedStoragePool >> allocateOrReuse [
 ]
 
 { #category : #initialization }
+CTLinkedStoragePool >> free: n [
+	[ n > 0 and: [ avail isNotNil ] ] whileTrue: [ 
+		avail := avail nextLink ]
+]
+
+{ #category : #initialization }
 CTLinkedStoragePool >> newLink [
-	self subclassResponsibility
+	^ ValueLink new
 ]
 
 { #category : #initialization }
