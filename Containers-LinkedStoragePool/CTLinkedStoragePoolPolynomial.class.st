@@ -5,13 +5,14 @@ Class {
 }
 
 { #category : #adding }
-CTLinkedStoragePoolPolynomial class >> exponents: exponentsP lessThen: exponentsQ [
-	exponentsP with: exponentsQ do: [ :p :q | p < q ifTrue: [ ^ true ] ].
-	^ false
+CTLinkedStoragePoolPolynomial class >> exponents: exponentsP lessThanOrEqualsTo: exponentsQ [
+	^ (exponentsP horner: 10) < (exponentsQ horner: 10)
 ]
 
 { #category : #'as yet unclassified' }
 CTLinkedStoragePoolPolynomial class >> termAssociations: aCollection [
+	aCollection sort: [ :a :b | 
+		self exponents: a key lessThanOrEqualsTo: b key ].
 	^ self new ignoreBlock: [ :polynomial | 
 		  aCollection do: [ :each | polynomial push: each ] ]
 ]
@@ -34,9 +35,10 @@ CTLinkedStoragePoolPolynomial >> addPolynomial: aPolynomial headLink: otherHead 
 	[ 
 	exponentsP := p value key.
 	exponentsQ := q value key.
-	self class exponents: exponentsP lessThen: exponentsQ ] whileTrue: [ 
-		q1 := q.
-		q := q nextLink ].
+	self class exponents: exponentsP lessThanOrEqualsTo: exponentsQ ] 
+		whileTrue: [ 
+			q1 := q.
+			q := q nextLink ].
 	exponentsP = exponentsQ
 		ifTrue: [ 
 			q value value: q value value + p value value.

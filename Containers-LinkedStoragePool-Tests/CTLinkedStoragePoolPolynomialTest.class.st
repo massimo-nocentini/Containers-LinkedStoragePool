@@ -8,16 +8,30 @@ Class {
 }
 
 { #category : #tests }
+CTLinkedStoragePoolPolynomialTest >> testOrderingOfTermsAssociations [
+	self
+		assert: (CTLinkedStoragePool polynomial
+				 exponents: #( 1 0 0 )
+				 lessThanOrEqualsTo: #( 1 2 0 ));
+		deny: (CTLinkedStoragePool polynomial
+				 exponents: #( 0 0 0 )
+				 lessThanOrEqualsTo: #( 0 0 0 ));
+		deny: (CTLinkedStoragePool polynomial
+				 exponents: #( 6 0 0 )
+				 lessThanOrEqualsTo: #( 1 2 0 ))
+]
+
+{ #category : #tests }
 CTLinkedStoragePoolPolynomialTest >> testPolynomialsFromKnuthTextbook [
 	| p q r |
 	p := CTLinkedStoragePool polynomial termAssociations: { 
 			     (#( 0 0 1 ) -> 1 negated).
 			     (#( 0 1 0 ) -> 2 negated).
-			     (#( 2 0 0 ) -> 1) }.
+			     (#( 2 0 0 ) -> 1) } shuffled.
 	q := CTLinkedStoragePool polynomial termAssociations: { 
 			     (#( 0 0 1 ) -> 1).
 			     (#( 0 1 0 ) -> 1).
-			     (#( 1 0 0 ) -> 1) }.
+			     (#( 1 0 0 ) -> 1) } shuffled.
 
 	"SUT"
 	r := q + p.
