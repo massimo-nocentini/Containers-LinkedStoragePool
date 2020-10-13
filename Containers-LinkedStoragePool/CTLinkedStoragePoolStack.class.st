@@ -23,3 +23,14 @@ CTLinkedStoragePoolStack >> push: anObject [
 		       nextLink: top;
 		       yourself
 ]
+
+{ #category : #removing }
+CTLinkedStoragePoolStack >> removeAll [
+	| link |
+	top ifNotNil: [ 
+		link := top.
+		[ link nextLink ] whileNotNil: [ link := link nextLink ].
+		link nextLink: avail.
+		avail := top.
+		top := nil ]
+]

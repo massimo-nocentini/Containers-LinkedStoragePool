@@ -7,6 +7,11 @@ Class {
 	#category : #'Containers-LinkedStoragePool'
 }
 
+{ #category : #'as yet unclassified' }
+CTLinkedStoragePool class >> circular [
+	^ CTLinkedStoragePoolCircular
+]
+
 { #category : #utilities }
 CTLinkedStoragePool class >> queue [
 	^ CTLinkedStoragePoolQueue

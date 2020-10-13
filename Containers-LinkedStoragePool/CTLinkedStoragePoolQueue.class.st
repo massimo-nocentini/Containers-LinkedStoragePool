@@ -28,3 +28,11 @@ CTLinkedStoragePoolQueue >> push: anObject [
 	top ifNil: [ top := p ] ifNotNil: [ bottom nextLink: p ].
 	bottom := p
 ]
+
+{ #category : #removing }
+CTLinkedStoragePoolQueue >> removeAll [
+	top ifNotNil: [ 
+		bottom nextLink: avail.
+		avail := top.
+		top := bottom := nil ]
+]
