@@ -12,6 +12,11 @@ CTLinkedStoragePool class >> circular [
 	^ CTLinkedStoragePoolCircular
 ]
 
+{ #category : #'as yet unclassified' }
+CTLinkedStoragePool class >> polynomial [
+	^ CTLinkedStoragePoolPolynomial
+]
+
 { #category : #utilities }
 CTLinkedStoragePool class >> queue [
 	^ CTLinkedStoragePoolQueue

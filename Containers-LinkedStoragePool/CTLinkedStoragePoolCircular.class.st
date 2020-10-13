@@ -16,6 +16,11 @@ CTLinkedStoragePoolCircular >> initialize [
 	head nextLink: head
 ]
 
+{ #category : #testing }
+CTLinkedStoragePoolCircular >> isEmpty [
+	^ head nextLink == head
+]
+
 { #category : #initialization }
 CTLinkedStoragePoolCircular >> pop [
 	^ head nextLink == head
