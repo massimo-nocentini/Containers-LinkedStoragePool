@@ -21,7 +21,7 @@ CTLinkedStoragePoolQueue >> pop [
 { #category : #adding }
 CTLinkedStoragePoolQueue >> push: anObject [
 	| p |
-	p := self allocateOrReuse
+	p := self allocateOrReuseLink
 		     value: anObject;
 		     nextLink: nil;
 		     yourself.

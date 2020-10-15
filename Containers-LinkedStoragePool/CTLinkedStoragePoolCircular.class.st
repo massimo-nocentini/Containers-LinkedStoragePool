@@ -37,7 +37,7 @@ CTLinkedStoragePoolCircular >> pop [
 { #category : #initialization }
 CTLinkedStoragePoolCircular >> push: anObject [
 	| p |
-	p := self allocateOrReuse
+	p := self allocateOrReuseLink
 		     value: anObject;
 		     nextLink: head nextLink;
 		     yourself.

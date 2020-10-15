@@ -28,7 +28,7 @@ CTLinkedStoragePool class >> stack [
 ]
 
 { #category : #initialization }
-CTLinkedStoragePool >> allocateOrReuse [
+CTLinkedStoragePool >> allocateOrReuseLink [
 	^ avail ifNil: [ self newLink ] ifNotNil: [ 
 		  | x |
 		  x := avail.

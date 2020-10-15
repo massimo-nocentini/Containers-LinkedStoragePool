@@ -18,7 +18,7 @@ CTLinkedStoragePoolStack >> pop [
 
 { #category : #adding }
 CTLinkedStoragePoolStack >> push: anObject [
-	top := self allocateOrReuse
+	top := self allocateOrReuseLink
 		       value: anObject;
 		       nextLink: top;
 		       yourself

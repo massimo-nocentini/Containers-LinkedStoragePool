@@ -4,15 +4,15 @@ Class {
 	#category : #'Containers-LinkedStoragePool'
 }
 
-{ #category : #adding }
-CTLinkedStoragePoolPolynomial class >> exponents: exponentsP lessThanOrEqualsTo: exponentsQ [
+{ #category : #comparing }
+CTLinkedStoragePoolPolynomial class >> exponents: exponentsP lessThan: exponentsQ [
 	^ (exponentsP horner: 10) < (exponentsQ horner: 10)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #creating }
 CTLinkedStoragePoolPolynomial class >> termAssociations: aCollection [
 	aCollection sort: [ :a :b | 
-		self exponents: a key lessThanOrEqualsTo: b key ].
+		self exponents: a key lessThan: b key ].
 	^ self new ignoreBlock: [ :polynomial | 
 		  aCollection do: [ :each | polynomial push: each ] ]
 ]
@@ -35,7 +35,7 @@ CTLinkedStoragePoolPolynomial >> addPolynomial: aPolynomial headLink: otherHead 
 	[ 
 	exponentsP := p value key.
 	exponentsQ := q value key.
-	self class exponents: exponentsP lessThanOrEqualsTo: exponentsQ ] 
+	self class exponents: exponentsP lessThan: exponentsQ ] 
 		whileTrue: [ 
 			q1 := q.
 			q := q nextLink ].
@@ -54,7 +54,7 @@ CTLinkedStoragePoolPolynomial >> addPolynomial: aPolynomial headLink: otherHead 
 					q := q nextLink ] ]
 		ifFalse: [ 
 			| q2 |
-			q2 := aPolynomial allocateOrReuse
+			q2 := aPolynomial allocateOrReuseLink
 				      value: p value key -> p value value;
 				      nextLink: q;
 				      yourself.
