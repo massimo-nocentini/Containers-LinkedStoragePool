@@ -50,32 +50,29 @@ CTLinkedStoragePoolPolynomialTest >> testPolynomialAdditionFromKnuthTextbook [
 
 { #category : #tests }
 CTLinkedStoragePoolPolynomialTest >> testPolynomialAdditionIsCommutativeFromKnuthTextbook [
-	| P Q X Y v w terms otherTerms |
-	terms := { 
-		         (#( 0 0 1 ) -> 1 negated).
-		         (#( 0 1 0 ) -> 2 negated).
-		         (#( 2 0 0 ) -> 1) }.
-	otherTerms := { 
-		              (#( 0 0 1 ) -> 1).
-		              (#( 0 1 0 ) -> 1).
-		              (#( 1 0 0 ) -> 1) }.
-	P := CTLinkedStoragePool polynomial termAssociations: terms shuffled.
-	X := CTLinkedStoragePool polynomial termAssociations: terms shuffled.
-	Q := CTLinkedStoragePool polynomial termAssociations:
-		     otherTerms shuffled.
-	Y := CTLinkedStoragePool polynomial termAssociations:
-		     otherTerms shuffled.
+	| p q r |
+	p := CTLinkedStoragePool polynomial termAssociations: { 
+			     (#( 0 0 1 ) -> 1 negated).
+			     (#( 0 1 0 ) -> 2 negated).
+			     (#( 2 0 0 ) -> 1) } shuffled.
+	q := CTLinkedStoragePool polynomial termAssociations: { 
+			     (#( 0 0 1 ) -> 1).
+			     (#( 0 1 0 ) -> 1).
+			     (#( 1 0 0 ) -> 1) } shuffled.
+
+	"SUT"
+	r := q + p.
+
+	"the order is important and the result can be read as side-effect on `p`"
+	self assert: r equals: q.
 
 	"Actually check for the result."
-	v := Array streamContents: [ :array | 
-		     | V |
-		     V := P + Q.
-		     [ V isEmpty ] whileFalse: [ array nextPut: V pop ] ].
-	w := Array streamContents: [ :array | 
-		     | W |
-		     W := Y + X.
-		     [ W isEmpty ] whileFalse: [ array nextPut: W pop ] ].
-	self assert: w equals: v
+	r := Array streamContents: [ :array | 
+		     [ r isEmpty ] whileFalse: [ array nextPut: r pop ] ].
+	self assert: r equals: { 
+			(#( 2 0 0 ) -> 1).
+			(#( 1 0 0 ) -> 1).
+			(#( 0 1 0 ) -> 1 negated) }
 ]
 
 { #category : #tests }

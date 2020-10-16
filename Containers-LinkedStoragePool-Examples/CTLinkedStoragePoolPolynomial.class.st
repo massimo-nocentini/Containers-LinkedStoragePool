@@ -1,7 +1,7 @@
 Class {
 	#name : #CTLinkedStoragePoolPolynomial,
 	#superclass : #CTLinkedStoragePoolCircular,
-	#category : #'Containers-LinkedStoragePool'
+	#category : #'Containers-LinkedStoragePool-Examples'
 }
 
 { #category : #comparing }
