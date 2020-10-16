@@ -37,7 +37,7 @@ CTLinkedStoragePoolPolynomialTest >> testPolynomialAdditionFromKnuthTextbook [
 	r := p + q.
 
 	"the order is important and the result can be read as side-effect on `p`"
-	self assert: r equals: p.
+	self assert: r equals: q.
 
 	"Actually check for the result."
 	r := Array streamContents: [ :array | 
@@ -64,7 +64,7 @@ CTLinkedStoragePoolPolynomialTest >> testPolynomialAdditionIsCommutativeFromKnut
 	r := q + p.
 
 	"the order is important and the result can be read as side-effect on `p`"
-	self assert: r equals: q.
+	self assert: r equals: p.
 
 	"Actually check for the result."
 	r := Array streamContents: [ :array | 
@@ -91,7 +91,7 @@ CTLinkedStoragePoolPolynomialTest >> testPolynomialsFromKnuthTextbook [
 	r := p + q.
 
 	"the order is important and the result can be read as side-effect on `p`"
-	self assert: r equals: p.
+	self assert: r equals: q.
 
 	"Actually check for the result."
 	r := Array streamContents: [ :array | 

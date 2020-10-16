@@ -6,7 +6,7 @@ Class {
 
 { #category : #comparing }
 CTLinkedStoragePoolPolynomial class >> exponents: exponentsP lessThan: exponentsQ [
-	^ (exponentsP horner: 10) < (exponentsQ horner: 10)
+	^ exponentsP hornerBase10 < exponentsQ hornerBase10
 ]
 
 { #category : #creating }
@@ -25,20 +25,16 @@ CTLinkedStoragePoolPolynomial >> + anObject [
 { #category : #adding }
 CTLinkedStoragePoolPolynomial >> addPolynomial: aPolynomial headLink: otherHead [
 	| p q q1 exponentsP exponentsQ |
-	"A1: initialize."
-	p := head nextLink.
-	q1 := otherHead.
+	p := otherHead nextLink.
+	q1 := head.
 	q := q1 nextLink.
-
-	""
 	[ 
 	[ 
 	exponentsP := p value key.
 	exponentsQ := q value key.
-	self class exponents: exponentsP lessThan: exponentsQ ] 
-		whileTrue: [ 
-			q1 := q.
-			q := q nextLink ].
+	self class exponents: exponentsP lessThan: exponentsQ ] whileTrue: [ 
+		q1 := q.
+		q := q nextLink ].
 	exponentsP = exponentsQ
 		ifTrue: [ 
 			q value value: q value value + p value value.
@@ -48,19 +44,19 @@ CTLinkedStoragePoolPolynomial >> addPolynomial: aPolynomial headLink: otherHead 
 					q2 := q.
 					q := q nextLink.
 					q1 nextLink: q.
-					aPolynomial releaseLink: q2 ]
+					self releaseLink: q2 ]
 				ifFalse: [ 
 					q1 := q.
 					q := q nextLink ] ]
 		ifFalse: [ 
 			| q2 |
-			q2 := aPolynomial allocateOrReuseLink
+			q2 := self allocateOrReuseLink
 				      value: p value key -> p value value;
 				      nextLink: q;
 				      yourself.
 			q1 nextLink: q2.
 			q1 := q2 ].
 	p := p nextLink.
-	p == head ] whileFalse.
-	^ aPolynomial
+	p == otherHead ] whileFalse.
+	^ self
 ]
