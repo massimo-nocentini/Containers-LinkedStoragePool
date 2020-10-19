@@ -10,7 +10,7 @@ Class {
 { #category : #initialization }
 CTLinkedStoragePoolCircular >> initialize [
 	super initialize.
-	head := ValueLink new
+	head := self newLink
 		        value: 0;
 		        yourself.
 	head nextLink: head
@@ -26,12 +26,12 @@ CTLinkedStoragePoolCircular >> pop [
 	^ head nextLink == head
 		  ifTrue: [ CollectionIsEmpty signal ]
 		  ifFalse: [ 
-			  head nextLink in: [ :p | 
-				  p value ignoreBlock: [ 
-					  head
-						  value: head value - 1;
-						  nextLink: p nextLink.
-					  self releaseLink: p ] ] ]
+			  | removingLink |
+			  removingLink := head nextLink.
+			  head
+				  value: head value - 1;
+				  nextLink: removingLink nextLink.
+			  removingLink value ignoreBlock: [ self releaseLink: removingLink ] ]
 ]
 
 { #category : #initialization }
@@ -43,5 +43,6 @@ CTLinkedStoragePoolCircular >> push: anObject [
 		     yourself.
 	head
 		value: head value + 1;
-		nextLink: p
+		nextLink: p.
+	^ p
 ]
