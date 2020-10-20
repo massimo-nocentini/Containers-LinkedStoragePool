@@ -7,6 +7,15 @@ Class {
 	#category : #'Containers-LinkedStoragePool'
 }
 
+{ #category : #enumerating }
+CTLinkedStoragePoolCircular >> do: aBlock [
+	| p |
+	p := head nextLink.
+	[ p == head ] whileFalse: [ 
+		aBlock value: p value.
+		p := p nextLink ]
+]
+
 { #category : #initialization }
 CTLinkedStoragePoolCircular >> initialize [
 	super initialize.

@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'coeff',
 		'rowLink',
-		'colLink'
+		'colLink',
+		'row',
+		'column'
 	],
 	#category : #'Containers-LinkedStoragePool-Examples'
 }
@@ -27,6 +29,35 @@ CTLinkedStoragePoolArray2DNode >> colLink [
 { #category : #accessing }
 CTLinkedStoragePoolArray2DNode >> colLink: anObject [
 	colLink := anObject
+]
+
+{ #category : #accessing }
+CTLinkedStoragePoolArray2DNode >> column [
+	^ column
+]
+
+{ #category : #accessing }
+CTLinkedStoragePoolArray2DNode >> column: anObject [
+	column := anObject
+]
+
+{ #category : #printing }
+CTLinkedStoragePoolArray2DNode >> printOn: aStream [
+	aStream
+		nextPutAll: coeff asString;
+		nextPutAll: ('({1} {2})' format: { 
+						 row.
+						 column }) subscript
+]
+
+{ #category : #accessing }
+CTLinkedStoragePoolArray2DNode >> row [
+	^ row
+]
+
+{ #category : #accessing }
+CTLinkedStoragePoolArray2DNode >> row: anObject [
+	row := anObject
 ]
 
 { #category : #accessing }

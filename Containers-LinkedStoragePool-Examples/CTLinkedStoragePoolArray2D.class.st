@@ -31,10 +31,24 @@ CTLinkedStoragePoolArray2D class >> dimensions: dims terms: coefficients [
 ]
 
 { #category : #accessing }
+CTLinkedStoragePoolArray2D >> at: row at: col [
+	^ Continuation currentDo: [ :hop | 
+		  (rows at: row) do: [ :node | 
+			  node column = col ifTrue: [ hop value: node ] ].
+		  CTLinkedStoragePoolArray2DNode new
+			  coeff: 0;
+			  row: row;
+			  column: col;
+			  yourself ]
+]
+
+{ #category : #accessing }
 CTLinkedStoragePoolArray2D >> at: row at: col put: anObject [
 	| rowLink colLink node |
 	node := CTLinkedStoragePoolArray2DNode new
 		        coeff: anObject;
+		        row: row;
+		        column: col;
 		        yourself.
 	rowLink := (rows at: row) push: node.
 	colLink := (columns at: col) push: node.
@@ -47,6 +61,11 @@ CTLinkedStoragePoolArray2D >> at: row at: col put: anObject [
 { #category : #accessing }
 CTLinkedStoragePoolArray2D >> columns: anObject [
 	columns := anObject
+]
+
+{ #category : #accessing }
+CTLinkedStoragePoolArray2D >> pivotNode: aNode [
+	
 ]
 
 { #category : #accessing }

@@ -6,7 +6,7 @@ Class {
 
 { #category : #tests }
 CTLinkedStoragePoolArray2DTest >> testPivot [
-	| coefficients |
+	| coefficients array |
 	coefficients := { 
 		                (#( 1 1 ) -> 50).
 		                (#( 2 1 ) -> 10).
@@ -14,5 +14,14 @@ CTLinkedStoragePoolArray2DTest >> testPivot [
 		                (#( 4 1 ) -> -30).
 		                (#( 4 3 ) -> -60).
 		                (#( 4 4 ) -> 5) } shuffled.
-	CTLinkedStoragePoolArray2D dimensions: #( 4 4 ) terms: coefficients
+	array := CTLinkedStoragePoolArray2D
+		         dimensions: #( 4 4 )
+		         terms: coefficients.
+	self
+		assert: (array at: 1 at: 1) coeff equals: 50;
+		assert: (array at: 2 at: 1) coeff equals: 10;
+		assert: (array at: 2 at: 3) coeff equals: 20;
+		assert: (array at: 4 at: 1) coeff equals: -30;
+		assert: (array at: 4 at: 3) coeff equals: -60;
+		assert: (array at: 4 at: 4) coeff equals: 5
 ]
