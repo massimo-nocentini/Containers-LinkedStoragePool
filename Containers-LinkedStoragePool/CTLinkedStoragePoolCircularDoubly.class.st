@@ -10,6 +10,11 @@ CTLinkedStoragePoolCircularDoubly >> initialize [
 	head previousLink: head
 ]
 
+{ #category : #testing }
+CTLinkedStoragePoolCircularDoubly >> isEmpty [
+	^ super isEmpty and: [ head previousLink == head ]
+]
+
 { #category : #initialization }
 CTLinkedStoragePoolCircularDoubly >> newLink [
 	^ DoubleLink new

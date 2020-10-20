@@ -46,3 +46,8 @@ CTLinkedStoragePoolCircular >> push: anObject [
 		nextLink: p.
 	^ p
 ]
+
+{ #category : #accessing }
+CTLinkedStoragePoolCircular >> size [
+	^ head value
+]
