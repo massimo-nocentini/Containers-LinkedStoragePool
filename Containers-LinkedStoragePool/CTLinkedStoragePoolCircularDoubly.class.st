@@ -17,7 +17,7 @@ CTLinkedStoragePoolCircularDoubly >> isEmpty [
 
 { #category : #initialization }
 CTLinkedStoragePoolCircularDoubly >> newLink [
-	^ DoubleLink new
+	^ CTDoubleValueLink new
 ]
 
 { #category : #'API-remotes' }
