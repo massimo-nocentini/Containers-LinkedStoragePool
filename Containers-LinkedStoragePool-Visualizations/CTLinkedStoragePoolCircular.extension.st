@@ -16,9 +16,7 @@ CTLinkedStoragePoolCircular >> asSlotsGroupKnownReferences: anIdentitySet [
 		             head
 			             asSlotsGroupRecursiveKnownReferences: anIdentitySet
 			             layoutBlock: [ :shapes | 
-				             RSWeightedCircleLayout new
-					             initialRadius: 100;
-					             on: shapes ] ].
+			             RSVerticalLineLayout on: shapes ] ].
 	frontAndRearLinks := RSEdgeBuilder arrowedLine
 		                     color: Color gray;
 		                     toShapes: ({ 
