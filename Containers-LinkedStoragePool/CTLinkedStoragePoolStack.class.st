@@ -7,6 +7,11 @@ Class {
 	#category : #'Containers-LinkedStoragePool'
 }
 
+{ #category : #testing }
+CTLinkedStoragePoolStack >> isEmpty [
+	^ top isNil
+]
+
 { #category : #adding }
 CTLinkedStoragePoolStack >> pop [
 	^ top ifNil: [ CollectionIsEmpty signal ] ifNotNil: [ 
