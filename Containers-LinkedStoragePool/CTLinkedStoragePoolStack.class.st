@@ -7,6 +7,11 @@ Class {
 	#category : #'Containers-LinkedStoragePool'
 }
 
+{ #category : #'as yet unclassified' }
+CTLinkedStoragePoolStack >> ifEmpty: eBlock ifNotEmpty: neBlock [
+	^ top ifNil: [ eBlock cull: self ] ifNotNil: [ neBlock cull: self ]
+]
+
 { #category : #testing }
 CTLinkedStoragePoolStack >> isEmpty [
 	^ top isNil
