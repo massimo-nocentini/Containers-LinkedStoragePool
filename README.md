@@ -1,7 +1,5 @@
 # Containers-LinkedStoragePool
 
-# MetaSTExporter
-
 Either load it with:
 
 ```smalltalk
