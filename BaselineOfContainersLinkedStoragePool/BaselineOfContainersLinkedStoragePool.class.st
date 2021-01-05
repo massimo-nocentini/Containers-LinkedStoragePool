@@ -21,3 +21,15 @@ BaselineOfContainersLinkedStoragePool >> baseline: spec [
 			package: 'Containers-LinkedStoragePool-Examples';
 			package: 'Containers-LinkedStoragePool-Tests' ]
 ]
+
+{ #category : #'as yet unclassified' }
+BaselineOfContainersLinkedStoragePool >> scriptLinkMessagesForDoc [
+
+	<script:
+	'BaselineOfContainersLinkedStoragePool new scriptLinkMessagesForDoc'>
+	^ MetaSTExporter new
+		  selectors: #( testEmptyLink testMostSimpleLink );
+		  exportWithRepositoryPath: [ :aPath | 
+			  aPath / 'json-for-doc' / 'link-core-messages.json' ]
+		  ofPackage: self class package
+]
