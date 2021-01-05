@@ -28,7 +28,9 @@ BaselineOfContainersLinkedStoragePool >> scriptLinkMessagesForDoc [
 	<script:
 	'BaselineOfContainersLinkedStoragePool new scriptLinkMessagesForDoc'>
 	^ MetaSTExporter new
-		  selectors: #( testEmptyLink testMostSimpleLink );
+		  selectors:
+			  #( testEmptyLink testLinkReferencingItself
+			     testTwoLinksReferencingEachOther );
 		  exportWithRepositoryPath: [ :aPath | 
 			  aPath / 'json-for-doc' / 'link-core-messages.json' ]
 		  ofPackage: self class package
