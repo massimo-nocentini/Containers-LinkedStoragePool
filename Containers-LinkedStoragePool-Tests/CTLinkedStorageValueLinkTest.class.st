@@ -25,6 +25,36 @@ CTLinkedStorageValueLinkTest >> testEmptyLink [
 ]
 
 { #category : #tests }
+CTLinkedStorageValueLinkTest >> testLinkReferencingAnotherLink [
+
+	| l1 l2 |
+	l1 := Link new.
+	l2 := Link new.
+
+	l1 nextLink: l2.
+
+	^ self
+		  export: l1
+		  pathSuffix: ''
+		  selector: #gtInspectorSlotsGraphInCanvas:
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> testLinkReferencingAnotherLinkRecursive [
+
+	| l1 l2 |
+	l1 := Link new.
+	l2 := Link new.
+
+	l1 nextLink: l2.
+
+	^ self export: l1 pathSuffix: '' selector: [ :aLink :aCanvas | 
+		  aLink
+			  gtInspectorSlotsGraphRecursiveInCanvas: aCanvas
+			  recursiveReferences: aLink recursiveReferences ]
+]
+
+{ #category : #tests }
 CTLinkedStorageValueLinkTest >> testLinkReferencingItself [
 
 	| l |
@@ -34,26 +64,48 @@ CTLinkedStorageValueLinkTest >> testLinkReferencingItself [
 	^ self
 		  export: l
 		  pathSuffix: ''
-		  selector: #gtInspectorSlotsGraphInCanvas:;
-		  export: l
-		  pathSuffix: 'recursive'
-		  selector: #gtInspectorSlotsGraphRecursiveInCanvas:
+		  selector: #gtInspectorSlotsGraphInCanvas:
 ]
 
 { #category : #tests }
-CTLinkedStorageValueLinkTest >> testTwoLinksReferencingEachOther [
+CTLinkedStorageValueLinkTest >> testLinkReferencingItselfRecursive [
 
-	| l1 l2 |
-	l1 := Link new.
-	l2 := Link new.
-	l1 nextLink: l2.
-	l2 nextLink: l1.
+	| l |
+	l := Link new.
+	l nextLink: l.
+
+	^ self export: l pathSuffix: '' selector: [ :aLink :aCanvas | 
+		  aLink
+			  gtInspectorSlotsGraphRecursiveInCanvas: aCanvas
+			  recursiveReferences: aLink recursiveReferences ]
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> testLinkReferencingThree [
+
+	| l |
+	l := Link new.
+	l nextLink: 3.
 
 	^ self
-		  export: l1
+		  export: l
 		  pathSuffix: ''
-		  selector: #gtInspectorSlotsGraphInCanvas:;
-		  export: l1
-		  pathSuffix: 'recursive'
-		  selector: #gtInspectorSlotsGraphRecursiveInCanvas:
+		  selector: #gtInspectorSlotsGraphInCanvas:
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> testTwoLinksReferencingEachOtherRecursive [
+
+	| l1 l2 l3 |
+	l1 := Link new.
+	l2 := Link new.
+	l3 := Link new.
+	l1 nextLink: l2.
+	l2 nextLink: l3.
+	l3 nextLink: l1.
+
+	^ self export: l1 pathSuffix: '' selector: [ :aLink :aCanvas | 
+		  aLink
+			  gtInspectorSlotsGraphRecursiveInCanvas: aCanvas
+			  recursiveReferences: aLink recursiveReferences ]
 ]

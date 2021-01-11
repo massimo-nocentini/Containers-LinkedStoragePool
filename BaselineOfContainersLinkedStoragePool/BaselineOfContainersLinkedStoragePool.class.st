@@ -29,8 +29,11 @@ BaselineOfContainersLinkedStoragePool >> scriptLinkMessagesForDoc [
 	'BaselineOfContainersLinkedStoragePool new scriptLinkMessagesForDoc'>
 	^ MetaSTExporter new
 		  selectors:
-			  #( testEmptyLink testLinkReferencingItself
-			     testTwoLinksReferencingEachOther );
+			  #( recursiveReferences do: nextLink: testEmptyLink testLinkReferencingItself
+			     testLinkReferencingItselfRecursive
+			     testTwoLinksReferencingEachOtherRecursive
+			     testLinkReferencingThree testLinkReferencingAnotherLink
+			     testLinkReferencingAnotherLinkRecursive );
 		  exportWithRepositoryPath: [ :aPath | 
 			  aPath / 'json-for-doc' / 'link-core-messages.json' ]
 		  ofPackage: self class package
