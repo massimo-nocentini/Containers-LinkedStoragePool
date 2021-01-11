@@ -13,99 +13,86 @@ CTLinkedStorageValueLinkTest >> imagesPath [
 ]
 
 { #category : #tests }
-CTLinkedStorageValueLinkTest >> testEmptyLink [
+CTLinkedStorageValueLinkTest >> test11ValueLinksLoop [
 
 	| l |
-	l := Link new.
-
-	^ self
-		  export: l
-		  pathSuffix: ''
-		  selector: #gtInspectorSlotsGraphInCanvas:
-]
-
-{ #category : #tests }
-CTLinkedStorageValueLinkTest >> testLinkReferencingAnotherLink [
-
-	| l1 l2 |
-	l1 := Link new.
-	l2 := Link new.
-
-	l1 nextLink: l2.
-
-	^ self
-		  export: l1
-		  pathSuffix: ''
-		  selector: #gtInspectorSlotsGraphInCanvas:
-]
-
-{ #category : #tests }
-CTLinkedStorageValueLinkTest >> testLinkReferencingAnotherLinkRecursive [
-
-	| l1 l2 |
-	l1 := Link new.
-	l2 := Link new.
-
-	l1 nextLink: l2.
-
-	^ self export: l1 pathSuffix: '' selector: [ :aLink :aCanvas | 
-		  aLink
-			  gtInspectorSlotsGraphRecursiveInCanvas: aCanvas
-			  recursiveReferences: aLink recursiveReferences ]
-]
-
-{ #category : #tests }
-CTLinkedStorageValueLinkTest >> testLinkReferencingItself [
-
-	| l |
-	l := Link new.
+	l := 1 ~~> nil.
 	l nextLink: l.
 
-	^ self
-		  export: l
-		  pathSuffix: ''
-		  selector: #gtInspectorSlotsGraphInCanvas:
+	^ self exportSlotsGraphOf: l
 ]
 
 { #category : #tests }
-CTLinkedStorageValueLinkTest >> testLinkReferencingItselfRecursive [
+CTLinkedStorageValueLinkTest >> test11ValueLinksLoopRecursive [
+
+	^ self exportSlotsGraphRecursiveOf: self test11ValueLinksLoop
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> test21ValueLinks [
 
 	| l |
-	l := Link new.
-	l nextLink: l.
+	l := 2 ~~> self testSimpleValueLink.
 
-	^ self export: l pathSuffix: '' selector: [ :aLink :aCanvas | 
-		  aLink
-			  gtInspectorSlotsGraphRecursiveInCanvas: aCanvas
-			  recursiveReferences: aLink recursiveReferences ]
+	^ self exportSlotsGraphOf: l
 ]
 
 { #category : #tests }
-CTLinkedStorageValueLinkTest >> testLinkReferencingThree [
+CTLinkedStorageValueLinkTest >> test321ValueLinks [
 
 	| l |
-	l := Link new.
-	l nextLink: 3.
+	l := 3 ~~> self test21ValueLinks.
 
-	^ self
-		  export: l
-		  pathSuffix: ''
-		  selector: #gtInspectorSlotsGraphInCanvas:
+	^ self exportSlotsGraphOf: l
 ]
 
 { #category : #tests }
-CTLinkedStorageValueLinkTest >> testTwoLinksReferencingEachOtherRecursive [
+CTLinkedStorageValueLinkTest >> test43214ValueLinksFrom2Recursive [
 
-	| l1 l2 l3 |
-	l1 := Link new.
-	l2 := Link new.
-	l3 := Link new.
-	l1 nextLink: l2.
-	l2 nextLink: l3.
-	l3 nextLink: l1.
+	^ self exportSlotsGraphRecursiveOf:
+		  self test43214ValueLinksRecursive nextLink nextLink
+]
 
-	^ self export: l1 pathSuffix: '' selector: [ :aLink :aCanvas | 
-		  aLink
-			  gtInspectorSlotsGraphRecursiveInCanvas: aCanvas
-			  recursiveReferences: aLink recursiveReferences ]
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> test43214ValueLinksRecursive [
+
+	| l1 l |
+	l1 := 1 ~~> nil.
+	l := 4 ~~> (3 ~~> (2 ~~> l1)).
+	l1 nextLink: l.
+	
+	^ self exportSlotsGraphRecursiveOf: l
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> test4321ValueLinks [
+
+	| l |
+	l := 4 ~~> self test321ValueLinks.
+
+	^ self exportSlotsGraphOf: l
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> test4321ValueLinksRecursive [
+
+	^ self exportSlotsGraphRecursiveOf: self test4321ValueLinks
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> test4321ValueLinksSimplerRepr [
+
+	^ self
+		  export: self test4321ValueLinks
+		  pathSuffix: ''
+		  selector: #gtInspectorLinksUsingCanvas:
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> testSimpleValueLink [
+
+	| l |
+	l := 1 ~~> nil.
+
+	^ self exportSlotsGraphOf: l
 ]

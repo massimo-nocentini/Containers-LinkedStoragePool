@@ -29,12 +29,28 @@ BaselineOfContainersLinkedStoragePool >> scriptLinkMessagesForDoc [
 	'BaselineOfContainersLinkedStoragePool new scriptLinkMessagesForDoc'>
 	^ MetaSTExporter new
 		  selectors:
-			  #( recursiveReferences do: nextLink: testEmptyLink testLinkReferencingItself
-			     testLinkReferencingItselfRecursive
+			  #( recursiveReferences do: nextLink: asLinkedList testEmptyLink
+			     testLinkReferencingItself testLinkReferencingItselfRecursive
 			     testTwoLinksReferencingEachOtherRecursive
 			     testLinkReferencingThree testLinkReferencingAnotherLink
 			     testLinkReferencingAnotherLinkRecursive );
 		  exportWithRepositoryPath: [ :aPath | 
 			  aPath / 'json-for-doc' / 'link-core-messages.json' ]
+		  ofPackage: self class package
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfContainersLinkedStoragePool >> scriptValueLinkMessagesForDoc [
+
+	<script:
+	'BaselineOfContainersLinkedStoragePool new scriptValueLinkMessagesForDoc'>
+	^ MetaSTExporter new
+		  selectors:
+			  #( ~~> testSimpleValueLink test4321ValueLinks test321ValueLinks
+			     test21ValueLinks test4321ValueLinksRecursive
+			     test4321ValueLinksSimplerRepr test43214ValueLinksRecursive
+			     test11ValueLinksLoopRecursive test11ValueLinksLoop test43214ValueLinksFrom2Recursive);
+		  exportWithRepositoryPath: [ :aPath | 
+			  aPath / 'json-for-doc' / 'valuelink-core-messages.json' ]
 		  ofPackage: self class package
 ]
