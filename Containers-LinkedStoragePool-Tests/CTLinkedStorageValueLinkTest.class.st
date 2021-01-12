@@ -113,6 +113,16 @@ CTLinkedStorageValueLinkTest >> testAsValueLink [
 ]
 
 { #category : #tests }
+CTLinkedStorageValueLinkTest >> testAsValueLinkInjectInto [
+
+	| l |
+	l := (1 to: 10)
+		     inject: nil
+		     into: [ :aValueLink :each | each ~~> aValueLink ].
+	^ self exportSlotsGraphRecursiveOf: l
+]
+
+{ #category : #tests }
 CTLinkedStorageValueLinkTest >> testNilAsLinkedList [
 
 	^ self exportSlotsGraphOf: nil asLinkedList
