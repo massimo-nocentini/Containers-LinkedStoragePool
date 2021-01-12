@@ -46,10 +46,12 @@ BaselineOfContainersLinkedStoragePool >> scriptValueLinkMessagesForDoc [
 	'BaselineOfContainersLinkedStoragePool new scriptValueLinkMessagesForDoc'>
 	^ MetaSTExporter new
 		  selectors:
-			  #( ~~> testSimpleValueLink test4321ValueLinks test321ValueLinks
-			     test21ValueLinks test4321ValueLinksRecursive
+			  #( ~~> asLinkedList testSimpleValueLink test4321ValueLinks
+			     test321ValueLinks test21ValueLinks test4321ValueLinksRecursive
 			     test4321ValueLinksSimplerRepr test43214ValueLinksRecursive
-			     test11ValueLinksLoopRecursive test11ValueLinksLoop test43214ValueLinksFrom2Recursive);
+			     test11ValueLinksLoopRecursive test11ValueLinksLoop
+			     test43214ValueLinksFrom2Recursive
+			     testAsLinkedList testAsLinkedList4321 testNilAsLinkedList );
 		  exportWithRepositoryPath: [ :aPath | 
 			  aPath / 'json-for-doc' / 'valuelink-core-messages.json' ]
 		  ofPackage: self class package

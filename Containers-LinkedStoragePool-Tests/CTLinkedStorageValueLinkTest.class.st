@@ -89,6 +89,24 @@ CTLinkedStorageValueLinkTest >> test4321ValueLinksSimplerRepr [
 ]
 
 { #category : #tests }
+CTLinkedStorageValueLinkTest >> testAsLinkedList [
+
+	^ self exportSlotsGraphOf: self testSimpleValueLink asLinkedList
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> testAsLinkedList4321 [
+
+	^ self exportSlotsGraphOf: self test4321ValueLinks asLinkedList
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> testNilAsLinkedList [
+
+	^ self exportSlotsGraphOf: nil asLinkedList
+]
+
+{ #category : #tests }
 CTLinkedStorageValueLinkTest >> testSimpleValueLink [
 
 	| l |
