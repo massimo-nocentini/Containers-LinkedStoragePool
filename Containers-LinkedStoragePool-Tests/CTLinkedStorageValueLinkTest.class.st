@@ -101,6 +101,18 @@ CTLinkedStorageValueLinkTest >> testAsLinkedList4321 [
 ]
 
 { #category : #tests }
+CTLinkedStorageValueLinkTest >> testAsLinkedListFromInterval [
+
+	^ self exportSlotsGraphOf: ((1 to: 10) as: LinkedList)
+]
+
+{ #category : #tests }
+CTLinkedStorageValueLinkTest >> testAsValueLink [
+
+	^ self exportSlotsGraphRecursiveOf: (1 to: 10) asValueLink
+]
+
+{ #category : #tests }
 CTLinkedStorageValueLinkTest >> testNilAsLinkedList [
 
 	^ self exportSlotsGraphOf: nil asLinkedList
