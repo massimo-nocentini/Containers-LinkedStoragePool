@@ -47,8 +47,8 @@ BaselineOfContainersLinkedStoragePool >> scriptValueLinkMessagesForDoc [
 	^ MetaSTExporter new
 		  selectors:
 			  #( ~~> asLinkedList asValueLink #foldr:init: #inject:into:
-			     testSimpleValueLink test4321ValueLinks test321ValueLinks
-			     test21ValueLinks test4321ValueLinksRecursive
+			     #to:by: testSimpleValueLink test4321ValueLinks
+			     test321ValueLinks test21ValueLinks test4321ValueLinksRecursive
 			     test4321ValueLinksSimplerRepr test43214ValueLinksRecursive
 			     test11ValueLinksLoopRecursive test11ValueLinksLoop
 			     test43214ValueLinksFrom2Recursive

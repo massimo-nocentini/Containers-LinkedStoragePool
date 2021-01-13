@@ -103,20 +103,20 @@ CTLinkedStorageValueLinkTest >> testAsLinkedList4321 [
 { #category : #tests }
 CTLinkedStorageValueLinkTest >> testAsLinkedListFromInterval [
 
-	^ self exportSlotsGraphOf: ((1 to: 10) as: LinkedList)
+	^ self exportSlotsGraphOf: ((4 to: 1 by: -1) as: LinkedList)
 ]
 
 { #category : #tests }
 CTLinkedStorageValueLinkTest >> testAsValueLink [
 
-	^ self exportSlotsGraphRecursiveOf: (1 to: 10) asValueLink
+	^ self exportSlotsGraphRecursiveOf: (4 to: 1 by: -1) asValueLink
 ]
 
 { #category : #tests }
 CTLinkedStorageValueLinkTest >> testAsValueLinkInjectInto [
 
 	| l |
-	l := (1 to: 10)
+	l := (4 to: 1 by: -1)
 		     inject: nil
 		     into: [ :aValueLink :each | each ~~> aValueLink ].
 	^ self exportSlotsGraphRecursiveOf: l
