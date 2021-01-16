@@ -53,7 +53,12 @@ BaselineOfContainersLinkedStoragePool >> scriptValueLinkMessagesForDoc [
 			     test11ValueLinksLoopRecursive test11ValueLinksLoop
 			     test43214ValueLinksFrom2Recursive
 			     testAsLinkedList testAsLinkedList4321 testNilAsLinkedList
-			     testAsLinkedListFromInterval testAsValueLink testAsValueLinkInjectInto );
+			     testAsLinkedListFromInterval testAsValueLink testAsValueLinkInjectInto
+			     topologicalSortOnCycleDo: ignoreBlock: anyAssociation
+			     testTopologicalSortOnCycleDo testTopologicalSortOnCycleDo1
+			     testTopologicalSortOnCycleDo2 testTopologicalSortOnCycleDo3
+			     testTopologicalSortOnCycleDo4 testTopologicalSortOnCycleDo5
+			     testIgnoreBlock anyAssociation );
 		  exportWithRepositoryPath: [ :aPath | 
 			  aPath / 'json-for-doc' / 'valuelink-core-messages.json' ]
 		  ofPackage: self class package
