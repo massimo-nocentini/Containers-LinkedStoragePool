@@ -1,20 +1,31 @@
-Extension { #name : #Collection }
+Class {
+	#name : #TopologicalSortAlgorithm,
+	#superclass : #Object,
+	#instVars : [
+		'size',
+		'relation'
+	],
+	#category : #'Containers-LinkedStoragePool-Examples'
+}
 
-{ #category : #'*Containers-LinkedStoragePool-Examples' }
-Collection >> topologicalSortOnCycleDo: cBlock [
+{ #category : #accessing }
+TopologicalSortAlgorithm >> relation: anObject [
 
-	| objs n table r qlink f sort |
-	"Compute the set of unique naturals subject of the input relations."
-	objs := self
-		        flatCollect: [ :association | 
-			        { 
-				        association key.
-				        association value } ]
-		        as: IdentitySet.
-	n := objs size.
+	relation := anObject
+]
 
+{ #category : #accessing }
+TopologicalSortAlgorithm >> size: anObject [
+
+	size := anObject
+]
+
+{ #category : #enumerating }
+TopologicalSortAlgorithm >> value: aBlock onCycleDo: cycleBlock [
+
+	| table r qlink f sort |
 	"T1: initialize."
-	table := (1 to: n) collect: [ :k | 
+	table := (1 to: size) collect: [ :k | 
 		         Association new
 			         key: 0;
 			         "COUNT: the number of direct predecessors of this object."
@@ -23,27 +34,23 @@ Collection >> topologicalSortOnCycleDo: cBlock [
 				         yourself ].
 
 	"T2: next relation."
-	self do: [ :relation | 
+	relation do: [ :anAssoc | 
 		| j k |
 		"Unpack `relation` such that `relation = (j -> k)` holds."
-		j := relation key.
-		k := relation value.
+		j := anAssoc key.
+		k := anAssoc value.
 
 		"T3: Increase COUNT by one."
 		(table at: k) in: [ :destAssoc | destAssoc key: destAssoc key + 1 ].
 
 		"T3: record the relation."
-		(table at: j) in: [ :sourceAssoc | 
-			ValueLink new in: [ :p | "Operation (8)"
-				(p
-					 value: k;
-					 nextLink: sourceAssoc value;
-					 yourself) ignoreBlock: [ sourceAssoc value: p ] ] ] ].
+		(table at: j) in: [ :sourceAssoc | "Operation (8)" 
+			sourceAssoc value: k ~~> sourceAssoc value ] ].
 
 	"T4: scan for zeros."
 	qlink := Dictionary new.
 	r := 0.
-	1 to: n do: [ :k | 
+	1 to: size do: [ :k | 
 		| count |
 		count := (table at: k) key.
 		count = 0 ifTrue: [ r := qlink at: r put: k ] ].
@@ -53,7 +60,7 @@ Collection >> topologicalSortOnCycleDo: cBlock [
 			        | p |
 			        "T5: output front of queue."
 			        array nextPut: f.
-			        n := n - 1.
+
 			        p := (table at: f) in: [ :assoc | 
 				             assoc value ignoreBlock: [ assoc value: nil ] ].
 
@@ -70,13 +77,12 @@ Collection >> topologicalSortOnCycleDo: cBlock [
 
 			        "T7: remove from queue."
 			        f := qlink at: f ifAbsent: [ 0 ] ] ].
-	^ n > 0
+	^ sort size < size
 		  ifTrue: [ 
 			  | kk cycle |
 			  "T9"
-			  n := objs size.
 			  qlink := Dictionary new.
-			  1 to: n do: [ :k | 
+			  1 to: size do: [ :k | 
 				  | assoc p |
 				  assoc := table at: k.
 				  p := assoc value ignoreBlock: [ assoc value: 0 ].
@@ -105,6 +111,7 @@ Collection >> topologicalSortOnCycleDo: cBlock [
 				           array nextPut: kk ].
 
 			  "Invoke the given block with the detected cycle."
-			  cBlock value: (cycle overlappingPairsCollect: [ :a :b | b -> a ]) ]
-		  ifFalse: [ sort ]
+			  cycleBlock value:
+				  (cycle overlappingPairsCollect: [ :a :b | b -> a ]) ]
+		  ifFalse: [ aBlock value: sort ]
 ]

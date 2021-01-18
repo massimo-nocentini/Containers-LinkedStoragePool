@@ -1,154 +1,7 @@
 Extension { #name : #CollectionTest }
 
 { #category : #'*Containers-LinkedStoragePool-Tests' }
-CollectionTest >> testTopologicalSortOnCycleDo [
-
-	"This test stress four small cycles detection."
-
-	self
-		assert: ({ (1 -> 1) } topologicalSortOnCycleDo: [ :cycle | cycle ])
-		equals: { (1 -> 1) }.
-	self
-		assert: ({ 
-				 (1 -> 2).
-				 (2 -> 1) } topologicalSortOnCycleDo: [ :cycle | cycle ])
-		equals: { 
-				(2 -> 1).
-				(1 -> 2) }.
-	self
-		assert: ({ 
-				 (1 -> 2).
-				 (2 -> 3).
-				 (3 -> 1) } topologicalSortOnCycleDo: [ :cycle | cycle ])
-		equals: { 
-				(3 -> 1).
-				(2 -> 3).
-				(1 -> 2) }.
-	self
-		assert: ({ 
-				 (5 -> 1).
-				 (1 -> 2).
-				 (2 -> 3).
-				 (3 -> 5).
-				 (3 -> 4) } topologicalSortOnCycleDo: [ :cycle | cycle ])
-		equals: { 
-				(5 -> 1).
-				(3 -> 5).
-				(2 -> 3).
-				(1 -> 2) }
-]
-
-{ #category : #'*Containers-LinkedStoragePool-Tests' }
-CollectionTest >> testTopologicalSortOnCycleDo1 [
-
-	"The following test is kept from TAOCP by Donald Knuth, Volume 1 page 272."
-
-	self
-		assert: ({ 
-				 (9 -> 2).
-				 (3 -> 7).
-				 (7 -> 5).
-				 (5 -> 8).
-				 (8 -> 6).
-				 (4 -> 6).
-				 (1 -> 3).
-				 (7 -> 4).
-				 (9 -> 5).
-				 (2 -> 8) } topologicalSortOnCycleDo: [ Error signal ])
-		equals: #( 1 9 3 2 7 4 5 8 6 )
-]
-
-{ #category : #'*Containers-LinkedStoragePool-Tests' }
-CollectionTest >> testTopologicalSortOnCycleDo2 [
-
-	"The following test is kept from https://upload.wikimedia.org/wikipedia/commons/0/03/Directed_acyclic_graph_2.svg."
-
-	self
-		assert: ({ 
-				 (1 -> 4).
-				 (2 -> 4).
-				 (2 -> 5).
-				 (3 -> 5).
-				 (3 -> 8).
-				 (4 -> 6).
-				 (4 -> 7).
-				 (4 -> 8).
-				 (5 -> 7) } topologicalSortOnCycleDo: [ Error signal ])
-		equals: #( 1 2 3 4 5 8 6 7 )
-]
-
-{ #category : #'*Containers-LinkedStoragePool-Tests' }
-CollectionTest >> testTopologicalSortOnCycleDo3 [
-
-	| random assocs |
-	random := Random seed: 11.
-	assocs := (1 to: 10000) collect: [ :k | 
-		          | a b |
-		          a := random nextInteger: 100.
-		          b := random nextInteger: 100.
-		          a -> (a = b
-			           ifTrue: [ b + 1 \\ 100 max: 1 ]
-			           ifFalse: [ b ]) ].
-	self
-		assert: (assocs topologicalSortOnCycleDo: [ :cycle | cycle ])
-		equals: { 
-				(94 -> 100).
-				(100 -> 94) }
-]
-
-{ #category : #'*Containers-LinkedStoragePool-Tests' }
-CollectionTest >> testTopologicalSortOnCycleDo4 [
-
-	"This test stress four small cycles detection."
-
-	self
-		should: [ 
-			{ 
-				(1 -> 2).
-				(4 -> 1) } topologicalSortOnCycleDo: [ :cycle | Error signal ] ]
-		raise: SubscriptOutOfBounds
-]
-
-{ #category : #'*Containers-LinkedStoragePool-Tests' }
-CollectionTest >> testTopologicalSortOnCycleDo5 [
-
-	"This test case shows how to iteratively removing edges belonging to cycle
- 	 yield an acyclic relation."
-
-	| relations random edges |
-	random := Random seed: 7.
-	relations := (1 to: 1000)
-		             collect: [ :k | 
-			             | a b |
-			             a := random nextInteger: 100.
-			             b := random nextInteger: 100.
-			             a -> (a = b
-				              ifTrue: [ b + 1 \\ 100 max: 1 ]
-				              ifFalse: [ b ]) ]
-		             as: OrderedCollection.
-
-	edges := Array streamContents: [ :array | 
-		         [ 
-		         | isAcyclic |
-		         isAcyclic := true.
-		         relations := relations topologicalSortOnCycleDo: [ :cycle | 
-			                      | edge |
-			                      isAcyclic := false.
-			                      edge := cycle anyOne.
-			                      array nextPut: edge.
-			                      relations
-				                      remove: edge;
-				                      yourself ].
-		         isAcyclic ] whileFalse ].
-
-	self
-		assert: relations
-		equals:
-			#( 60 73 86 94 95 99 100 57 96 90 87 98 82 80 64 1 88 89 84 92 93
-			   15 2 69 97 41 63 67 81 76 7 75 44 68 37 3 65 47 70 66 85 91 71
-			   59 4 62 77 50 58 83 72 46 9 5 56 42 48 11 49 38 6 39 45 8 16 27
-			   78 74 30 79 34 40 20 19 36 14 24 53 35 33 12 25 55 51 26 13 23
-			   21 52 28 17 31 22 18 32 43 29 61 10 54 ).
+CollectionTest >> assert_testTopologicalSortOnCycleDo3_edgesEqualsTo: edges [
 
 	self assert: edges equals: { 
 			(99 -> 100).
@@ -566,4 +419,151 @@ CollectionTest >> testTopologicalSortOnCycleDo5 [
 			(18 -> 22).
 			(18 -> 22).
 			(10 -> 22) }
+]
+
+{ #category : #'*Containers-LinkedStoragePool-Tests' }
+CollectionTest >> randomRelationOfSize: size max: m [
+
+	| random |
+	random := Random seed: 7.
+	^ (1 to: size)
+		  collect: [ :k | 
+			  | a b |
+			  a := random nextInteger: m.
+			  b := random nextInteger: m.
+			  a -> (a = b
+				   ifTrue: [ b + 1 \\ m max: 1 ]
+				   ifFalse: [ b ]) ]
+		  as: OrderedCollection
+]
+
+{ #category : #'*Containers-LinkedStoragePool-Tests' }
+CollectionTest >> testTopologicalSortOnCycleDo [
+
+	"The following test is kept from TAOCP by Donald Knuth, Volume 1 page 272."
+
+	self
+		assert: ((1 to: 9)
+				 topologicalSortByAssociations: { 
+						 (9 -> 2).
+						 (3 -> 7).
+						 (7 -> 5).
+						 (5 -> 8).
+						 (8 -> 6).
+						 (4 -> 6).
+						 (1 -> 3).
+						 (7 -> 4).
+						 (9 -> 5).
+						 (2 -> 8) }
+				 onCycleDo: [ Error signal ])
+		equals: #( 1 9 3 2 7 4 5 8 6 )
+]
+
+{ #category : #'*Containers-LinkedStoragePool-Tests' }
+CollectionTest >> testTopologicalSortOnCycleDo1 [
+
+	"This test stress four small cycles detection."
+
+	| cycleBlock |
+	cycleBlock := [ :sequence :cycle | sequence , cycle ].
+	self
+		assert: ({ #a }
+				 topologicalSortByAssociations: { (1 -> 1) }
+				 onCycleDo: cycleBlock)
+		equals: { 
+				#a.
+				#a.
+				(1 -> 1) }.
+	self
+		assert: ({ #a. #b }
+				 topologicalSortByAssociations: { 
+						 (1 -> 2).
+						 (2 -> 1) }
+				 onCycleDo: cycleBlock)
+		equals: { 
+				#b.
+				#a.
+				#b.
+				(2 -> 1).
+				(1 -> 2) }.
+	self
+		assert: ({ #a. #b. #c }
+				 topologicalSortByAssociations: { 
+						 (1 -> 2).
+						 (2 -> 3).
+						 (3 -> 1) }
+				 onCycleDo: cycleBlock)
+		equals: { 
+				#c.
+				#a.
+				#b.
+				#c.
+				(3 -> 1).
+				(2 -> 3).
+				(1 -> 2) }.
+	self
+		assert: ({ #a. #b. #c. #d. #e }
+				 topologicalSortByAssociations: { 
+						 (5 -> 1).
+						 (1 -> 2).
+						 (2 -> 3).
+						 (3 -> 5).
+						 (3 -> 4) }
+				 onCycleDo: cycleBlock)
+		equals: { 
+				#e.
+				#a.
+				#b.
+				#c.
+				#e.
+				(5 -> 1).
+				(3 -> 5).
+				(2 -> 3).
+				(1 -> 2) }
+]
+
+{ #category : #'*Containers-LinkedStoragePool-Tests' }
+CollectionTest >> testTopologicalSortOnCycleDo2 [
+
+	"The following test is kept from https://upload.wikimedia.org/wikipedia/commons/0/03/Directed_acyclic_graph_2.svg."
+
+	self
+		assert: ((1 to: 8)
+				 topologicalSortByAssociations: { 
+						 (1 -> 4).
+						 (2 -> 4).
+						 (2 -> 5).
+						 (3 -> 5).
+						 (3 -> 8).
+						 (4 -> 6).
+						 (4 -> 7).
+						 (4 -> 8).
+						 (5 -> 7) }
+				 onCycleDo: [ Error signal ])
+		equals: #( 1 2 3 4 5 8 6 7 )
+]
+
+{ #category : #'*Containers-LinkedStoragePool-Tests' }
+CollectionTest >> testTopologicalSortOnCycleDo3 [
+
+	"This test case shows how to iteratively removing edges
+	 belonging to a cycle to yield an acyclic relation."
+
+	| aRelation m |
+	m := 100.
+	aRelation := self randomRelationOfSize: 1000 max: m.
+
+	(1 to: m)
+		topologicalSortByAssociations: aRelation
+		acyclicDo: [ :ordering :edges | 
+			self
+				assert: ordering
+				equals:
+					#( 60 73 86 94 95 99 100 57 96 90 87 98 82 80 64 1 88 89 84 92 93
+					   15 2 69 97 41 63 67 81 76 7 75 44 68 37 3 65 47 70 66 85 91 71
+					   59 4 62 77 50 58 83 72 46 9 5 56 42 48 11 49 38 6 39 45 8 16
+					   27 78 74 30 79 34 40 20 19 36 14 24 53 35 33 12 25 55 51 26 13
+					   23 21 52 28 17 31 22 18 32 43 29 61 10 54 ).
+
+			self assert_testTopologicalSortOnCycleDo3_edgesEqualsTo: edges ]
 ]

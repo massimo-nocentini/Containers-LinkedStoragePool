@@ -1,0 +1,55 @@
+Extension { #name : #SequenceableCollection }
+
+{ #category : #'*Containers-LinkedStoragePool-Examples' }
+SequenceableCollection >> isAcyclicWithRespectToAssociations: aRelation [
+
+	| isAcyclic |
+	isAcyclic := true.
+	self
+		topologicalSortByAssociations: aRelation
+		onCycleDo: [ isAcyclic := false ].
+	^ isAcyclic
+]
+
+{ #category : #'*Containers-LinkedStoragePool-Examples' }
+SequenceableCollection >> topologicalSortByAssociations: aRelation acyclicDo: aBlock [
+
+	| ordering edges |
+	edges := Array streamContents: [ :aStream | 
+		         [ 
+		         | isAcyclic |
+		         isAcyclic := true.
+		         ordering := self
+			                     topologicalSortByAssociations: aRelation
+			                     onCycleDo: [ :sequence :cycle | 
+				                     | edge |
+				                     isAcyclic := false.
+				                     edge := cycle anyOne.
+				                     aStream nextPut: edge.
+				                     aRelation remove: edge.
+				                     sequence ].
+		         isAcyclic ] whileFalse ].
+
+	^ aBlock value: ordering value: edges
+]
+
+{ #category : #'*Containers-LinkedStoragePool-Examples' }
+SequenceableCollection >> topologicalSortByAssociations: aRelation onCycleDo: cBlock [
+
+	| sorter |
+	sorter := TopologicalSortAlgorithm new
+		          size: self size;
+		          relation: aRelation;
+		          yourself.
+	^ sorter
+		  value: [ :ordering | 
+			  self species streamContents: [ :aStream | 
+				  ordering do: [ :anIndex | aStream nextPut: (self at: anIndex) ] ] ]
+		  onCycleDo: [ :cycle | 
+			  | sequence |
+			  sequence := Array streamContents: [ :aStream | 
+				              aStream nextPut: (self at: cycle first key).
+				              cycle reverseDo: [ :anAssoc | 
+					              aStream nextPut: (self at: anAssoc key) ] ].
+			  cBlock cull: sequence cull: cycle ]
+]
