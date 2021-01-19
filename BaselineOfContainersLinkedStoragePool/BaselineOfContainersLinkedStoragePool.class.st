@@ -58,7 +58,7 @@ BaselineOfContainersLinkedStoragePool >> scriptValueLinkMessagesForDoc [
 			     #topologicalSortByAssociations:onCycleDo:
 			     isAcyclicWithRespectToAssociations:
 			     #value:onCycleDo: ignoreBlock: anyAssociation makeValueLinksTable
-			     initializeValueLinksTable: #scanSinksOfValueLinksTable:in:
+			     initializeValueLinksTable: #sinksOfValueLinksTable:
 			     #sortOn:sinksDictionary:valueLinksTable:
 			     #handleCycleInValueLinksTable:do:
 			     testTopologicalSortOnCycleDo testTopologicalSortOnCycleDo1

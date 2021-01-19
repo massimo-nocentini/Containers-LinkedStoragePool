@@ -23,9 +23,7 @@ TopologicalSortAlgorithm >> handleCycleInValueLinksTable: table do: cycleBlock [
 		p := assoc value ignoreBlock: [ assoc value: 0 ].
 
 		"T10"
-		[ p ] whileNotNil: [ 
-			qlink at: p value put: k.
-			p := p nextLink ] ].
+		p do: [ :each | qlink at: each value put: k ] ].
 
 	"T11"
 	kk := qlink anyAssociation key.
@@ -37,13 +35,13 @@ TopologicalSortAlgorithm >> handleCycleInValueLinksTable: table do: cycleBlock [
 	(table at: kk) value = 0 ] whileTrue.
 
 	"T13"
-	cycle := Array streamContents: [ :array | 
+	cycle := Array streamContents: [ :aStream | 
 		         [ 
-		         array nextPut: kk.
+		         aStream nextPut: kk.
 		         (table at: kk) value: 0.
 		         kk := qlink at: kk.
 		         (table at: kk) value = 1 ] whileTrue.
-		         array nextPut: kk ].
+		         aStream nextPut: kk ].
 
 	"Invoke the given block with the detected cycle."
 	^ cycleBlock value:
@@ -86,19 +84,15 @@ TopologicalSortAlgorithm >> relation: anObject [
 ]
 
 { #category : #enumerating }
-TopologicalSortAlgorithm >> scanSinksOfValueLinksTable: table in: aBlock [
+TopologicalSortAlgorithm >> sinksOfValueLinksTable: table [
 
-	| qlink |
-	qlink := (1 to: size)
-		         foldr: [ :k :aValueLink | 
-			         | count |
-			         count := (table at: k) key.
-			         count = 0
-				         ifTrue: [ k ~~> aValueLink ]
-				         ifFalse: [ aValueLink ] ]
-		         init: nil.
-
-	^ aBlock value: qlink
+	^ (1 to: size)
+		  foldr: [ :k :aValueLink | 
+			  (table at: k)
+				  ifSink: [ k ~~> aValueLink ]
+				  otherwise: [ aValueLink ]
+				  forTopologicalSortAlgorithm: self ]
+		  init: nil
 ]
 
 { #category : #accessing }
@@ -113,7 +107,7 @@ TopologicalSortAlgorithm >> sortOn: aStream sinksDictionary: qlink valueLinksTab
 	| f |
 	f := qlink.
 	[ f ] whileNotNil: [ 
-		| p anIndex |
+		| aValueLink anIndex |
 		"T5: output front of queue."
 		anIndex := f value.
 		aStream nextPut: anIndex.
@@ -121,39 +115,35 @@ TopologicalSortAlgorithm >> sortOn: aStream sinksDictionary: qlink valueLinksTab
 		"T7: remove from queue."
 		f := f nextLink.
 
-		p := (table at: anIndex) in: [ :assoc | 
-			     assoc value ignoreBlock: [ assoc value: nil ] ].
+		aValueLink := (table at: anIndex) in: [ :anAssoc | 
+			              anAssoc value ignoreBlock: [ anAssoc value: nil ] ].
 
 		"T6: erase relations."
-		[ p ] whileNotNil: [ 
-			| assoc k count |
-			k := p value.
-			assoc := table at: k.
-
-			"decrease COUNT by one."
-			count := assoc
-				         key: assoc key - 1;
-				         key.
-			count = 0 ifTrue: [ f := k ~~> f ].
-			p := p nextLink ] ]
+		aValueLink do: [ :k | 
+			| kIndex |
+			kIndex := k value.
+			(table at: kIndex)
+				decrementCountIfZero: [ f := kIndex ~~> f ]
+				forTopologicalSortAlgorithm: self ] ]
 ]
 
 { #category : #enumerating }
 TopologicalSortAlgorithm >> value: aBlock onCycleDo: cycleBlock [
 
-	| table sort |
+	| table sort qlink |
 	table := self makeValueLinksTable.
 
-	"T1: initialize."
-	self initializeValueLinksTable: table.
+	"T1: initialize. T4: scan for zeros."
+	qlink := self
+		         initializeValueLinksTable: table;
+		         sinksOfValueLinksTable: table.
 
-	"T4: scan for zeros."
-	sort := self scanSinksOfValueLinksTable: table in: [ :qlink | 
-		        Array streamContents: [ :aStream | 
-			        self
-				        sortOn: aStream
-				        sinksDictionary: qlink
-				        valueLinksTable: table ] ].
+	sort := Array streamContents: [ :aStream | 
+		        self
+			        sortOn: aStream
+			        sinksDictionary: qlink
+			        valueLinksTable: table ].
+
 	^ sort size < size
 		  ifTrue: [ self handleCycleInValueLinksTable: table do: cycleBlock ]
 		  ifFalse: [ aBlock value: sort ]
