@@ -57,9 +57,13 @@ BaselineOfContainersLinkedStoragePool >> scriptValueLinkMessagesForDoc [
 			     #topologicalSortByAssociations:acyclicDo:
 			     #topologicalSortByAssociations:onCycleDo:
 			     isAcyclicWithRespectToAssociations:
-			     #value:onCycleDo: ignoreBlock: anyAssociation testTopologicalSortOnCycleDo
-			     testTopologicalSortOnCycleDo1 testTopologicalSortOnCycleDo2
-			     testTopologicalSortOnCycleDo3 testIgnoreBlock testAnyAssociation );
+			     #value:onCycleDo: ignoreBlock: anyAssociation makeValueLinksTable
+			     initializeValueLinksTable: #scanSinksOfValueLinksTable:in:
+			     #sortOn:sinksDictionary:at:valueLinksTable:
+			     #handleCycleInValueLinksTable:do:
+			     testTopologicalSortOnCycleDo testTopologicalSortOnCycleDo1
+			     testTopologicalSortOnCycleDo2 testTopologicalSortOnCycleDo3
+			     testIgnoreBlock testAnyAssociation );
 		  exportWithRepositoryPath: [ :aPath | 
 			  aPath / 'json-for-doc' / 'valuelink-core-messages.json' ]
 		  ofPackage: self class package
