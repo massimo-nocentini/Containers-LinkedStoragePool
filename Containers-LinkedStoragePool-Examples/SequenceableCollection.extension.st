@@ -36,20 +36,17 @@ SequenceableCollection >> topologicalSortByAssociations: aRelation acyclicDo: aB
 { #category : #'*Containers-LinkedStoragePool-Examples' }
 SequenceableCollection >> topologicalSortByAssociations: aRelation onCycleDo: cBlock [
 
-	| sorter |
-	sorter := TopologicalSortAlgorithm new
-		          size: self size;
-		          relation: aRelation;
-		          yourself.
-	^ sorter
+	^ TopologicalSortAlgorithm new
+		  size: self size;
+		  relation: aRelation;
 		  value: [ :ordering | 
 			  self species streamContents: [ :aStream | 
-				  ordering do: [ :anIndex | aStream nextPut: (self at: anIndex) ] ] ]
+					  ordering do: [ :anIndex | aStream nextPut: (self at: anIndex) ] ] ]
 		  onCycleDo: [ :cycle | 
 			  | sequence |
 			  sequence := Array streamContents: [ :aStream | 
-				              aStream nextPut: (self at: cycle first key).
-				              cycle reverseDo: [ :anAssoc | 
-					              aStream nextPut: (self at: anAssoc key) ] ].
+					              aStream nextPut: (self at: cycle first key).
+					              cycle reverseDo: [ :anAssoc | 
+							              aStream nextPut: (self at: anAssoc key) ] ].
 			  cBlock cull: sequence cull: cycle ]
 ]

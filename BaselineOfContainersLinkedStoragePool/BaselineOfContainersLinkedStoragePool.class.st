@@ -40,6 +40,29 @@ BaselineOfContainersLinkedStoragePool >> scriptLinkMessagesForDoc [
 ]
 
 { #category : #'as yet unclassified' }
+BaselineOfContainersLinkedStoragePool >> scriptTopologicalSortMessagesForDoc [
+
+	<script:
+	'BaselineOfContainersLinkedStoragePool new scriptTopologicalSortMessagesForDoc'>
+	^ MetaSTExporter new
+		  selectors: #( #topologicalSortByAssociations:acyclicDo:
+			     #topologicalSortByAssociations:onCycleDo:
+			     isAcyclicWithRespectToAssociations:
+			     #value:onCycleDo: ignoreBlock: anyAssociation makeValueLinksTable
+			     initializeValueLinksTable: #sinksOfValueLinksTable:
+			     #ifSink:otherwise:forTopologicalSortAlgorithm:
+			     #sortOn:sinksValueLink:valueLinksTable:
+			     #decrementCountIfZero:forTopologicalSortAlgorithm:
+			     #handleCycleInValueLinksTable:do:
+			     testTopologicalSortOnCycleDo testTopologicalSortOnCycleDo1
+			     testTopologicalSortOnCycleDo2 testTopologicalSortOnCycleDo3
+			     testIgnoreBlock testAnyAssociation );
+		  exportWithRepositoryPath: [ :aPath | 
+			  aPath / 'json-for-doc' / 'topologicalSort-core-messages.json' ]
+		  ofPackage: self class package
+]
+
+{ #category : #'as yet unclassified' }
 BaselineOfContainersLinkedStoragePool >> scriptValueLinkMessagesForDoc [
 
 	<script:
@@ -59,7 +82,7 @@ BaselineOfContainersLinkedStoragePool >> scriptValueLinkMessagesForDoc [
 			     isAcyclicWithRespectToAssociations:
 			     #value:onCycleDo: ignoreBlock: anyAssociation makeValueLinksTable
 			     initializeValueLinksTable: #sinksOfValueLinksTable:
-			     #sortOn:sinksDictionary:valueLinksTable:
+			     #sortOn:sinksValueLink:valueLinksTable:
 			     #handleCycleInValueLinksTable:do:
 			     testTopologicalSortOnCycleDo testTopologicalSortOnCycleDo1
 			     testTopologicalSortOnCycleDo2 testTopologicalSortOnCycleDo3

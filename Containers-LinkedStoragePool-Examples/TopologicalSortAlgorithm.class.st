@@ -102,7 +102,7 @@ TopologicalSortAlgorithm >> size: anObject [
 ]
 
 { #category : #enumerating }
-TopologicalSortAlgorithm >> sortOn: aStream sinksDictionary: qlink valueLinksTable: table [
+TopologicalSortAlgorithm >> sortOn: aStream sinksValueLink: qlink valueLinksTable: table [
 
 	| f |
 	f := qlink.
@@ -141,7 +141,7 @@ TopologicalSortAlgorithm >> value: aBlock onCycleDo: cycleBlock [
 	sort := Array streamContents: [ :aStream | 
 		        self
 			        sortOn: aStream
-			        sinksDictionary: qlink
+			        sinksValueLink: qlink
 			        valueLinksTable: table ].
 
 	^ sort size < size
