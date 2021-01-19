@@ -1,3 +1,6 @@
+"
+Implementation of the Algorithm T in TAOCP by Donald Knuth, Volume 1 page 264.
+"
 Class {
 	#name : #TopologicalSortAlgorithm,
 	#superclass : #Object,
@@ -85,14 +88,17 @@ TopologicalSortAlgorithm >> relation: anObject [
 { #category : #enumerating }
 TopologicalSortAlgorithm >> scanSinksOfValueLinksTable: table in: aBlock [
 
-	| r qlink |
-	qlink := Dictionary new.
-	r := 0.
-	1 to: size do: [ :k | 
-		| count |
-		count := (table at: k) key.
-		count = 0 ifTrue: [ r := qlink at: r put: k ] ].
-	^ aBlock value: qlink value: r
+	| qlink |
+	qlink := (1 to: size)
+		         foldr: [ :k :aValueLink | 
+			         | count |
+			         count := (table at: k) key.
+			         count = 0
+				         ifTrue: [ k ~~> aValueLink ]
+				         ifFalse: [ aValueLink ] ]
+		         init: nil.
+
+	^ aBlock value: qlink
 ]
 
 { #category : #accessing }
@@ -102,17 +108,20 @@ TopologicalSortAlgorithm >> size: anObject [
 ]
 
 { #category : #enumerating }
-TopologicalSortAlgorithm >> sortOn: aStream sinksDictionary: qlink at: anIndex valueLinksTable: table [
+TopologicalSortAlgorithm >> sortOn: aStream sinksDictionary: qlink valueLinksTable: table [
 
-	| f r |
-	r := anIndex.
-	f := qlink at: 0 ifAbsent: [ 0 ].
-	[ f = 0 ] whileFalse: [ 
-		| p |
+	| f |
+	f := qlink.
+	[ f ] whileNotNil: [ 
+		| p anIndex |
 		"T5: output front of queue."
-		aStream nextPut: f.
+		anIndex := f value.
+		aStream nextPut: anIndex.
 
-		p := (table at: f) in: [ :assoc | 
+		"T7: remove from queue."
+		f := f nextLink.
+
+		p := (table at: anIndex) in: [ :assoc | 
 			     assoc value ignoreBlock: [ assoc value: nil ] ].
 
 		"T6: erase relations."
@@ -125,11 +134,8 @@ TopologicalSortAlgorithm >> sortOn: aStream sinksDictionary: qlink at: anIndex v
 			count := assoc
 				         key: assoc key - 1;
 				         key.
-			count = 0 ifTrue: [ r := qlink at: r put: k ].
-			p := p nextLink ].
-
-		"T7: remove from queue."
-		f := qlink removeKey: f ifAbsent: [ 0 ] ]
+			count = 0 ifTrue: [ f := k ~~> f ].
+			p := p nextLink ] ]
 ]
 
 { #category : #enumerating }
@@ -142,15 +148,12 @@ TopologicalSortAlgorithm >> value: aBlock onCycleDo: cycleBlock [
 	self initializeValueLinksTable: table.
 
 	"T4: scan for zeros."
-	sort := self
-		        scanSinksOfValueLinksTable: table
-		        in: [ :qlink :anIndex | 
-			        Array streamContents: [ :aStream | 
-				        self
-					        sortOn: aStream
-					        sinksDictionary: qlink
-					        at: anIndex
-					        valueLinksTable: table ] ].
+	sort := self scanSinksOfValueLinksTable: table in: [ :qlink | 
+		        Array streamContents: [ :aStream | 
+			        self
+				        sortOn: aStream
+				        sinksDictionary: qlink
+				        valueLinksTable: table ] ].
 	^ sort size < size
 		  ifTrue: [ self handleCycleInValueLinksTable: table do: cycleBlock ]
 		  ifFalse: [ aBlock value: sort ]

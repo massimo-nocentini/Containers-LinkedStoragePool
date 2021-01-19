@@ -456,7 +456,7 @@ CollectionTest >> testTopologicalSortOnCycleDo [
 						 (9 -> 5).
 						 (2 -> 8) }
 				 onCycleDo: [ Error signal ])
-		equals: #( 1 9 3 2 7 4 5 8 6 )
+		equals: #( 1 3 7 4 9 2 5 8 6 )
 ]
 
 { #category : #'*Containers-LinkedStoragePool-Tests' }
@@ -540,7 +540,7 @@ CollectionTest >> testTopologicalSortOnCycleDo2 [
 						 (4 -> 8).
 						 (5 -> 7) }
 				 onCycleDo: [ Error signal ])
-		equals: #( 1 2 3 4 5 8 6 7 )
+		equals: #( 1 2 4 6 3 5 7 8 )
 ]
 
 { #category : #'*Containers-LinkedStoragePool-Tests' }
@@ -559,11 +559,11 @@ CollectionTest >> testTopologicalSortOnCycleDo3 [
 			self
 				assert: ordering
 				equals:
-					#( 60 73 86 94 95 99 100 57 96 90 87 98 82 80 64 1 88 89 84 92 93
-					   15 2 69 97 41 63 67 81 76 7 75 44 68 37 3 65 47 70 66 85 91 71
-					   59 4 62 77 50 58 83 72 46 9 5 56 42 48 11 49 38 6 39 45 8 16
-					   27 78 74 30 79 34 40 20 19 36 14 24 53 35 33 12 25 55 51 26 13
-					   23 21 52 28 17 31 22 18 32 43 29 61 10 54 ).
+					#( 60 73 86 94 57 95 99 100 96 98 87 64 80 88 15 41 1 93 2 84 97
+					   89 67 75 7 82 92 81 90 63 76 37 66 4 50 70 71 77 9 42 72 68 65
+					   58 69 47 44 3 91 46 85 62 56 49 6 45 8 78 27 11 83 59 5 48 38
+					   39 79 16 30 74 34 40 19 53 24 20 14 12 51 13 33 25 26 23 36 35
+					   21 52 17 22 18 28 31 32 61 29 10 54 43 55 ).
 
 			self assert_testTopologicalSortOnCycleDo3_edgesEqualsTo: edges ]
 ]
