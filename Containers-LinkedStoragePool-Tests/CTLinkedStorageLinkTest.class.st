@@ -34,29 +34,7 @@ CTLinkedStorageLinkTest >> testLinkReferencingAnotherLink [
 ]
 
 { #category : #tests }
-CTLinkedStorageLinkTest >> testLinkReferencingAnotherLinkRecursive [
-
-	| l1 l2 |
-	l1 := Link new.
-	l2 := Link new.
-
-	l1 nextLink: l2.
-
-	^ self exportSlotsGraphOf: l1
-]
-
-{ #category : #tests }
 CTLinkedStorageLinkTest >> testLinkReferencingItself [
-
-	| l |
-	l := Link new.
-	l nextLink: l.
-
-	^ self exportSlotsGraphOf: l
-]
-
-{ #category : #tests }
-CTLinkedStorageLinkTest >> testLinkReferencingItselfRecursive [
 
 	| l |
 	l := Link new.
@@ -76,7 +54,7 @@ CTLinkedStorageLinkTest >> testLinkReferencingThree [
 ]
 
 { #category : #tests }
-CTLinkedStorageLinkTest >> testTwoLinksReferencingEachOtherRecursive [
+CTLinkedStorageLinkTest >> testTwoLinksReferencingEachOther [
 
 	| l1 l2 l3 |
 	l1 := Link new.
