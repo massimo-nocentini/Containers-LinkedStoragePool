@@ -13,11 +13,10 @@ BaselineOfContainersLinkedStoragePool >> baseline: spec [
 			baseline: 'ContainersEssentials'
 			with: [ 
 			spec repository: 'github://massimo-nocentini/Containers-Essentials' ].
-		
+
 		"Packages"
 		spec
 			package: 'Containers-LinkedStoragePool';
 			package: 'Containers-LinkedStoragePool-Visualizations';
-			package: 'Containers-LinkedStoragePool-Examples';
 			package: 'Containers-LinkedStoragePool-Tests' ]
 ]
