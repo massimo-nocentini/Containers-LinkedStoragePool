@@ -5,7 +5,7 @@ Class {
 		'rows',
 		'columns'
 	],
-	#category : #'Containers-LinkedStoragePool-Examples'
+	#category : #'Containers-LinkedStoragePool'
 }
 
 { #category : #creating }

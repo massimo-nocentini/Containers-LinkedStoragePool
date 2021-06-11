@@ -8,7 +8,7 @@ Class {
 		'row',
 		'column'
 	],
-	#category : #'Containers-LinkedStoragePool-Examples'
+	#category : #'Containers-LinkedStoragePool'
 }
 
 { #category : #accessing }
