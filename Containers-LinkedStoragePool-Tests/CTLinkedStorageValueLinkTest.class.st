@@ -25,7 +25,7 @@ CTLinkedStorageValueLinkTest >> test11ValueLinksLoop [
 { #category : #tests }
 CTLinkedStorageValueLinkTest >> test11ValueLinksLoopRecursive [
 
-	^ self exportSlotsGraphRecursiveOf: self test11ValueLinksLoop
+	^ self exportSlotsGraphOf: self test11ValueLinksLoop
 ]
 
 { #category : #tests }
@@ -49,7 +49,7 @@ CTLinkedStorageValueLinkTest >> test321ValueLinks [
 { #category : #tests }
 CTLinkedStorageValueLinkTest >> test43214ValueLinksFrom2Recursive [
 
-	^ self exportSlotsGraphRecursiveOf:
+	^ self exportSlotsGraphOf:
 		  self test43214ValueLinksRecursive nextLink nextLink
 ]
 
@@ -60,8 +60,8 @@ CTLinkedStorageValueLinkTest >> test43214ValueLinksRecursive [
 	l1 := 1 ~~> nil.
 	l := 4 ~~> (3 ~~> (2 ~~> l1)).
 	l1 nextLink: l.
-	
-	^ self exportSlotsGraphRecursiveOf: l
+
+	^ self exportSlotsGraphOf: l
 ]
 
 { #category : #tests }
@@ -76,7 +76,7 @@ CTLinkedStorageValueLinkTest >> test4321ValueLinks [
 { #category : #tests }
 CTLinkedStorageValueLinkTest >> test4321ValueLinksRecursive [
 
-	^ self exportSlotsGraphRecursiveOf: self test4321ValueLinks
+	^ self exportSlotsGraphOf: self test4321ValueLinks
 ]
 
 { #category : #tests }
@@ -85,7 +85,7 @@ CTLinkedStorageValueLinkTest >> test4321ValueLinksSimplerRepr [
 	^ self
 		  export: self test4321ValueLinks
 		  pathSuffix: ''
-		  selector: #gtInspectorLinksUsingCanvas:
+		  onCanvasDo: #gtInspectorLinksUsingCanvas:
 ]
 
 { #category : #tests }
@@ -109,7 +109,7 @@ CTLinkedStorageValueLinkTest >> testAsLinkedListFromInterval [
 { #category : #tests }
 CTLinkedStorageValueLinkTest >> testAsValueLink [
 
-	^ self exportSlotsGraphRecursiveOf: (4 to: 1 by: -1) asValueLink
+	^ self exportSlotsGraphOf: (4 to: 1 by: -1) asValueLink
 ]
 
 { #category : #tests }
@@ -119,7 +119,7 @@ CTLinkedStorageValueLinkTest >> testAsValueLinkInjectInto [
 	l := (4 to: 1 by: -1)
 		     inject: nil
 		     into: [ :aValueLink :each | each ~~> aValueLink ].
-	^ self exportSlotsGraphRecursiveOf: l
+	^ self exportSlotsGraphOf: l
 ]
 
 { #category : #tests }

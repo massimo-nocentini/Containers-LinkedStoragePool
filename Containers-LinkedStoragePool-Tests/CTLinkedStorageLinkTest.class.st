@@ -42,7 +42,7 @@ CTLinkedStorageLinkTest >> testLinkReferencingAnotherLinkRecursive [
 
 	l1 nextLink: l2.
 
-	^ self exportSlotsGraphRecursiveOf: l1
+	^ self exportSlotsGraphOf: l1
 ]
 
 { #category : #tests }
@@ -62,7 +62,7 @@ CTLinkedStorageLinkTest >> testLinkReferencingItselfRecursive [
 	l := Link new.
 	l nextLink: l.
 
-	^ self exportSlotsGraphRecursiveOf: l
+	^ self exportSlotsGraphOf: l
 ]
 
 { #category : #tests }
@@ -86,5 +86,5 @@ CTLinkedStorageLinkTest >> testTwoLinksReferencingEachOtherRecursive [
 	l2 nextLink: l3.
 	l3 nextLink: l1.
 
-	^ self exportSlotsGraphRecursiveOf: l1
+	^ self exportSlotsGraphOf: l1
 ]

@@ -6,14 +6,14 @@ Class {
 
 { #category : #baselines }
 BaselineOfContainersLinkedStoragePool >> baseline: spec [
+
 	<baseline>
 	spec for: #common do: [ "Externals."
 		spec
-			baseline: 'dsst'
-			with: [ spec repository: 'github://massimo-nocentini/dsst' ];
-			baseline: 'MetaSTExporter'
+			baseline: 'ContainersEssentials'
 			with: [ 
-				spec repository: 'github://massimo-nocentini/MetaSTExporter/src' ].
+			spec repository: 'github://massimo-nocentini/Containers-Essentials' ].
+		
 		"Packages"
 		spec
 			package: 'Containers-LinkedStoragePool';
