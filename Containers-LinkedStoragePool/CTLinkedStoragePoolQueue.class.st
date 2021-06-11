@@ -9,11 +9,12 @@ Class {
 
 { #category : #adding }
 CTLinkedStoragePoolQueue >> pop [
+
 	^ top ifNil: [ CollectionIsEmpty signal ] ifNotNil: [ 
 		  | p |
 		  p := top.
 		  top := top nextLink.
-		  p value ignoreBlock: [ 
+		  p value yourself: [ 
 			  self releaseLink: p.
 			  top ifNil: [ bottom := top ] ] ]
 ]

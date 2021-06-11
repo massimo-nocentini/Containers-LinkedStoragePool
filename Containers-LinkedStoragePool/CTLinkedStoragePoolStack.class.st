@@ -19,11 +19,12 @@ CTLinkedStoragePoolStack >> isEmpty [
 
 { #category : #adding }
 CTLinkedStoragePoolStack >> pop [
+
 	^ top ifNil: [ CollectionIsEmpty signal ] ifNotNil: [ 
 		  | p |
 		  p := top.
 		  top := top nextLink.
-		  p value ignoreBlock: [ self releaseLink: p ] ]
+		  p value yourself: [ self releaseLink: p ] ]
 ]
 
 { #category : #adding }

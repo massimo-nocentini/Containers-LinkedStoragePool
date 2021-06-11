@@ -22,6 +22,7 @@ CTLinkedStoragePoolCircularDoubly >> newLink [
 
 { #category : #'API-remotes' }
 CTLinkedStoragePoolCircularDoubly >> pop [
+
 	^ head nextLink == head
 		  ifTrue: [ CollectionIsEmpty signal ]
 		  ifFalse: [ 
@@ -29,7 +30,7 @@ CTLinkedStoragePoolCircularDoubly >> pop [
 			  removingLink := head nextLink.
 			  removingLink previousLink nextLink: removingLink nextLink.
 			  removingLink nextLink previousLink: removingLink previousLink.
-			  removingLink value ignoreBlock: [ 
+			  removingLink value yourself: [ 
 				  head value: head value - 1.
 				  self releaseLink: removingLink ] ]
 ]

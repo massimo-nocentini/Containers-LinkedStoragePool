@@ -20,7 +20,7 @@ TopologicalSortAlgorithm >> handleCycleInValueLinksTable: table do: cycleBlock [
 	1 to: size do: [ :k | 
 		| assoc p |
 		assoc := table at: k.
-		p := assoc value ignoreBlock: [ assoc value: 0 ].
+		p := assoc value yourself: [ assoc value: 0 ].
 
 		"T10"
 		p do: [ :each | qlink at: each value put: k ] ].
@@ -116,7 +116,7 @@ TopologicalSortAlgorithm >> sortOn: aStream sinksValueLink: qlink valueLinksTabl
 		f := f nextLink.
 
 		aValueLink := (table at: anIndex) in: [ :anAssoc | 
-			              anAssoc value ignoreBlock: [ anAssoc value: nil ] ].
+			              anAssoc value yourself: [ anAssoc value: nil ] ].
 
 		"T6: erase relations."
 		aValueLink do: [ :k | 

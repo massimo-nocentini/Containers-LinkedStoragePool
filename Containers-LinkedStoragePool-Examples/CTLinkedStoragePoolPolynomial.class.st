@@ -11,9 +11,9 @@ CTLinkedStoragePoolPolynomial class >> exponents: exponentsP lessThan: exponents
 
 { #category : #creating }
 CTLinkedStoragePoolPolynomial class >> termAssociations: aCollection [
-	aCollection sort: [ :a :b | 
-		self exponents: a key lessThan: b key ].
-	^ self new ignoreBlock: [ :polynomial | 
+
+	aCollection sort: [ :a :b | self exponents: a key lessThan: b key ].
+	^ self new yourself: [ :polynomial | 
 		  aCollection do: [ :each | polynomial push: each ] ]
 ]
 

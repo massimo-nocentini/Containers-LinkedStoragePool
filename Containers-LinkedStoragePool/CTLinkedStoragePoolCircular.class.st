@@ -32,6 +32,7 @@ CTLinkedStoragePoolCircular >> isEmpty [
 
 { #category : #initialization }
 CTLinkedStoragePoolCircular >> pop [
+
 	^ head nextLink == head
 		  ifTrue: [ CollectionIsEmpty signal ]
 		  ifFalse: [ 
@@ -40,7 +41,7 @@ CTLinkedStoragePoolCircular >> pop [
 			  head
 				  value: head value - 1;
 				  nextLink: removingLink nextLink.
-			  removingLink value ignoreBlock: [ self releaseLink: removingLink ] ]
+			  removingLink value yourself: [ self releaseLink: removingLink ] ]
 ]
 
 { #category : #initialization }
