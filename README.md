@@ -5,7 +5,7 @@ Either load it with:
 ```smalltalk
 Metacello new
     baseline: 'ContainersLinkedStoragePool';
-    repository: 'github://massimo-nocentini/Containers-LinkedStoragePool/src';
+    repository: 'github://massimo-nocentini/Containers-LinkedStoragePool:master';
     load.
 ```
 
@@ -13,5 +13,5 @@ or depend on it with:
 
 ```smalltalk
 spec baseline: 'ContainersLinkedStoragePool'
-	with: [ spec repository: 'github://massimo-nocentini/Containers-LinkedStoragePool/src' ]
+	with: [ spec repository: 'github://massimo-nocentini/Containers-LinkedStoragePool:master' ]
 ```

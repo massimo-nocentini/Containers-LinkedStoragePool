@@ -11,12 +11,18 @@ BaselineOfContainersLinkedStoragePool >> baseline: spec [
 	spec for: #common do: [ "Externals."
 		spec
 			baseline: 'ContainersEssentials'
-			with: [ 
-			spec repository: 'github://massimo-nocentini/Containers-Essentials' ].
+			with: [ spec repository: 'github://massimo-nocentini/Containers-Essentials:master' ].
+
+		spec
+			baseline: 'ContainersLinks'
+			with: [ spec repository: 'github://massimo-nocentini/Containers-Links:master/src' ].
 
 		"Packages"
 		spec
-			package: 'Containers-LinkedStoragePool';
-			package: 'Containers-LinkedStoragePool-Visualizations';
-			package: 'Containers-LinkedStoragePool-Tests' ]
+			package: 'Containers-LinkedStoragePool'
+			with: [ spec requires: #( 'ContainersEssentials' 'ContainersLinks' ) ];
+			package: 'Containers-LinkedStoragePool-Visualizations'
+			with: [ spec requires: #( 'Containers-LinkedStoragePool' ) ];
+			package: 'Containers-LinkedStoragePool-Tests'
+			with: [ spec requires: #( 'Containers-LinkedStoragePool' ) ] ]
 ]
