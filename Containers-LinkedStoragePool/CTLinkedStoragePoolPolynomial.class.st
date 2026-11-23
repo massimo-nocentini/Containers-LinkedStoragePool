@@ -1,3 +1,23 @@
+"
+I am a polynomial, kept as a circular list of its terms. A term is an association from the array of its exponents, one for each variable, to its coefficient. The arrays are compared by the numbers whose decimal digits they are, see `exponents:lessThan:` on my class side.
+
+- `termAssociations:` makes a polynomial from a collection of terms, which it sorts in place. The term with the largest exponents is the first one that `do:` and `pop` give.
+- `+` adds the terms of the receiver to the argument, which it changes and answers. A term whose coefficient becomes zero is removed. The receiver must not be empty, nor have a term with exponents smaller than those of every term of the argument.
+
+```smalltalk
+| p q |
+p := CTLinkedStoragePool polynomial termAssociations: {
+	(#( 0 1 0 ) -> -2).
+	(#( 2 0 0 ) -> 1) }.
+q := CTLinkedStoragePool polynomial termAssociations: {
+	(#( 0 1 0 ) -> 2).
+	(#( 1 0 0 ) -> 1) }.
+p + q == q. ""true""
+Array streamContents: [ :aStream |
+	q do: [ :each | aStream nextPut: each ] ]
+""{#(2 0 0)->1. #(1 0 0)->1}""
+```
+"
 Class {
 	#name : #CTLinkedStoragePoolPolynomial,
 	#superclass : #CTLinkedStoragePoolCircular,

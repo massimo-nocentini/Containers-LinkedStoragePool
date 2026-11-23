@@ -1,3 +1,23 @@
+"
+I am a two dimensional array that stores only the elements given to me, each in a `CTLinkedStoragePoolArray2DNode`. My instance variables `rows` and `columns` hold a `CTLinkedStoragePoolCircular` for each row and for each column, and a node is pushed on both the lists of its position.
+
+- `dimensions:terms:`, on my class side, takes the number of rows and columns and the associations from positions to elements.
+- `at:at:put:` pushes a new node and answers it.
+- `at:at:` answers the node at a position, or a new one with the coefficient 0 that is not stored.
+
+```smalltalk
+| array |
+array := CTLinkedStoragePoolArray2D
+	dimensions: #( 4 4 )
+	terms: {
+		(#( 1 1 ) -> 50).
+		(#( 2 3 ) -> 20) }.
+(array at: 2 at: 3) coeff. ""20""
+(array at: 2 at: 2) coeff ""0""
+```
+
+The method `pivotNode:` is empty.
+"
 Class {
 	#name : #CTLinkedStoragePoolArray2D,
 	#superclass : #Object,

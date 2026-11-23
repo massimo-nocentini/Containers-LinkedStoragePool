@@ -1,3 +1,6 @@
+"
+I test the access to the elements of a `CTLinkedStoragePoolArray2D`, the ones given and the ones that are not stored.
+"
 Class {
 	#name : #CTLinkedStoragePoolArray2DTest,
 	#superclass : #TestCase,

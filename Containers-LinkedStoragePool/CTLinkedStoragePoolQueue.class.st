@@ -1,3 +1,14 @@
+"
+I am a queue of linked objects, the first one pushed is the first one popped. I push after `bottom`, the link of the last object, and I pop from `top`, as a stack does.
+
+```smalltalk
+| queue |
+queue := CTLinkedStoragePoolQueue new.
+queue push: 3; push: 4.
+queue pop. ""3""
+queue head ""4""
+```
+"
 Class {
 	#name : #CTLinkedStoragePoolQueue,
 	#superclass : #CTLinkedStoragePoolStack,

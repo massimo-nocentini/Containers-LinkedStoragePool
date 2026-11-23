@@ -1,3 +1,21 @@
+"
+I am a stack of linked objects, the last one pushed is the first one popped. My instance variable `top` is the link of that object, or nil when I am empty.
+
+- `push:` adds an object, in a link of the pool or in a new one.
+- `pop` removes the object on the top, gives its link back to the pool and answers the object.
+- `head` answers the object on the top, which stays there.
+- `removeAll` gives all my links back to the pool.
+
+Both `pop` and `head` signal `CollectionIsEmpty` when I am empty.
+
+```smalltalk
+| stack |
+stack := CTLinkedStoragePoolStack new.
+stack push: 3; push: 4.
+stack pop. ""4""
+stack head ""3""
+```
+"
 Class {
 	#name : #CTLinkedStoragePoolStack,
 	#superclass : #CTLinkedStoragePool,

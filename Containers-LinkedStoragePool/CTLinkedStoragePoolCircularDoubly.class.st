@@ -1,3 +1,6 @@
+"
+I am a circular list whose links are `CTDoubleValueLink` objects: each one knows the previous link as well as the next one, and the `head` too.
+"
 Class {
 	#name : #CTLinkedStoragePoolCircularDoubly,
 	#superclass : #CTLinkedStoragePoolCircular,

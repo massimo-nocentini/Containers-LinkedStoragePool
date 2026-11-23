@@ -1,3 +1,6 @@
+"
+I test the stack, the queue, the circular list and the polynomial of the linked storage pools, and export the graphs of their slots as images.
+"
 Class {
 	#name : #CTLinkedStoragePoolTest,
 	#superclass : #TestCase,

@@ -1,3 +1,6 @@
+"
+I am an element of a `CTLinkedStoragePoolArray2D`. I know my coefficient `coeff`, my position `row` and `column`, and the links `rowLink` and `colLink` that hold me in the lists of my row and of my column. I print as the coefficient with the position as a subscript.
+"
 Class {
 	#name : #CTLinkedStoragePoolArray2DNode,
 	#superclass : #Object,

@@ -1,3 +1,10 @@
+"
+I am the baseline of the linked storage pools. I depend on `ContainersEssentials` and `ContainersLinks`, and load three packages:
+
+- `Containers-LinkedStoragePool`, the pools.
+- `Containers-LinkedStoragePool-Visualizations`, which has no class and no method.
+- `Containers-LinkedStoragePool-Tests`, their tests.
+"
 Class {
 	#name : #BaselineOfContainersLinkedStoragePool,
 	#superclass : #BaselineOf,

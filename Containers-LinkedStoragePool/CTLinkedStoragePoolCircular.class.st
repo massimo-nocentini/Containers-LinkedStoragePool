@@ -1,3 +1,18 @@
+"
+I am a circular list of linked objects. My instance variable `head` is a link of its own, that holds my `size` as its value: the link after `head` is the one of the last object pushed, and the link of the first object pushed is followed by `head`.
+
+- `push:` adds an object after `head` and answers its link.
+- `pop` removes the object after `head` and answers it, or signals `CollectionIsEmpty`.
+- `do:` goes from the last object pushed to the first.
+
+```smalltalk
+| circular |
+circular := CTLinkedStoragePoolCircular new.
+circular push: 3; push: 4.
+circular size. ""2""
+circular pop ""4""
+```
+"
 Class {
 	#name : #CTLinkedStoragePoolCircular,
 	#superclass : #CTLinkedStoragePool,
